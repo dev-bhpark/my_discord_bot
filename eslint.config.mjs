@@ -2,15 +2,13 @@ import js from "@eslint/js";
 import globals from "globals";
 
 export default [
-  // 1. 기본 추천 규칙 적용
   js.configs.recommended,
 
   {
-    // 2. 모든 자바스크립트 파일에 대한 공통 설정
     files: ["**/*.{js,mjs,cjs}"],
     languageOptions: {
       ecmaVersion: "latest",
-      sourceType: "module", // 일단 기본을 module로 설정해서 import 에러를 방지합니다.
+      sourceType: "module",
       globals: {
         ...globals.node,
       },
@@ -18,13 +16,11 @@ export default [
   },
 
   {
-    // 3. 특히 봇 코드(.js)에서 require를 쓸 수 있게 허용
     files: ["**/*.js"],
     languageOptions: {
       sourceType: "commonjs",
     },
     rules: {
-      // 디스코드 가이드의 엄격한 규칙들
       "arrow-spacing": ["warn", { before: true, after: true }],
       "brace-style": ["error", "1tbs", { allowSingleLine: true }],
       "comma-dangle": ["error", "always-multiline"],
