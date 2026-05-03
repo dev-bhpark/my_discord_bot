@@ -5,4 +5,4 @@ package-lock.json
 package.json
 .prettierrc
 .c_cpp_properties.json
-.eslint.config.mjs
+eslint.config.mjs
