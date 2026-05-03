@@ -1,3 +1,5 @@
+// Reload the command so that when developing it, I don't have to type restart everything.
+
 const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
