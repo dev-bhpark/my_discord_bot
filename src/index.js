@@ -13,7 +13,7 @@ const { Client, GatewayIntentBits, Collection } = require('discord.js');
 
 // .config() gets the .env file as a object
 // process: Default object that Node.js creates
-require('dotenv').config();
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 const token = process.env.token;
 
 /*
@@ -29,7 +29,8 @@ client.commands = new Collection();
 
 // path.join(): construct the path to commands
 // foldersPath = /discord_bot/commands
-const foldersPath = path.join(__dirname, 'commands');
+// __dirname: special variable that provide directory name and file name of the current module.
+const foldersPath = path.join(__dirname, '../commands');
 
 // fs.readdirSync(): reads the path to the directory and returns an array of absolute path.
 const commandFolders = fs.readdirSync(foldersPath);
@@ -58,6 +59,9 @@ for (const folder of commandFolders) {
 
 		// if there are 'data' and 'execute'
 		if ('data' in command && 'execute' in command) {
+
+			// set command.category as folder so that I can use it for "realod.js"
+			command.category = folder;
 			client.commands.set(command.data.name, command);
 		} else {
 			console.log(
@@ -75,7 +79,7 @@ for (const folder of commandFolders) {
     and that arugment is being used inside the console.log
 */
 // Event handler
-const eventsPath = path.join(__dirname, 'events');
+const eventsPath = path.join(__dirname, '../events');
 const eventFiles = fs
 	.readdirSync(eventsPath)
 	.filter((file) => file.endsWith('.js'));
