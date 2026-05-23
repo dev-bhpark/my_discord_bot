@@ -4,8 +4,8 @@ const path = require('node:path');
 
 require('dotenv').config({ path: path.join(__dirname, '../.env') });
 
-const { clientId, guildId, token } = process.env;
-
+// const { clientId, guildId, token } = process.env;
+const { clientId, token } = process.env;
 
 // delcare an array of commands
 const commands = [];
@@ -16,9 +16,7 @@ const commandFolders = fs.readdirSync(foldersPath);
 for (const folder of commandFolders) {
 	// Grab all the command files from the commands directory you created earlier
 	const commandsPath = path.join(foldersPath, folder);
-	const commandFiles = fs
-		.readdirSync(commandsPath)
-		.filter((file) => file.endsWith('.js'));
+	const commandFiles = fs.readdirSync(commandsPath).filter((file) => file.endsWith('.js'));
 	// Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
 	for (const file of commandFiles) {
 		const filePath = path.join(commandsPath, file);
@@ -55,17 +53,14 @@ rest.delete(
 // deploy the commands
 (async () => {
 	try {
-		console.log(
-			`Started refreshing ${commands.length} application (/) commands.`,
-		);
+		console.log(`Started refreshing ${commands.length} application (/) commands.`);
 
 		const data = await rest.put(
-			Routes.applicationGuildCommands(clientId, guildId),
+			// Routes.applicationGuildCommands(clientId, guildId),
+			Routes.applicationCommands(clientId),
 			{ body: commands },
 		);
-		console.log(
-			`Successfully reloaded ${data.length} application (/) commands.`,
-		);
+		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
 	} catch (error) {
 		console.error(error);
 	}

@@ -1,61 +1,72 @@
 // Reload the command so that when developing it, I don't have to type restart everything.
 
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, MessageFlags } = require('discord.js');
 const path = require('node:path');
+
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('reload')
 		.setDescription('Reloads a command.')
+		// make this command useable only for admission
+		.setDefaultMemberPermissions('0')
 		// creating an option. This will show up when the user types '/reload' creating a 'command' box and make them to type in the command
 		.addStringOption((option) =>
-			option
-				.setName('command')
-				.setDescription('The command to reload.')
-				.setRequired(true),
+			option.setName('command').setDescription('The command to reload.').setRequired(true),
 		),
 
 	async execute(interaction) {
-		// ---------- Need to resolve the file path for reload command --------
-		const commandName = interaction.options
-			.getString('command', true)
-			.toLowerCase();
+		const commandName = interaction.options.getString('command', true).toLowerCase();
 		const command = interaction.client.commands.get(commandName);
+
 		if (!command) {
-			return interaction.reply(
-				`There is no command with name \`${commandName}\`!`,
-			);
+			return interaction.reply({
+				content: `There is no command with name \`${commandName}\`!`,
+				flags: MessageFlags.Ephemeral,
+			});
 		}
 
-		const filePath = path.join(
-			__dirname,
-			`../${command.category}/${command.data.name}.js`,
-		);
-		console.log(filePath);
-		require.cache[require.resolve(filePath)];
+		const category = command.category ? `${command.category}/` : '';
+		const filePath = path.join(__dirname, `../${category}${command.data.name}.js`);
 
-		// if (require.cache[require.resolve(filePath)]) {
-		// 	delete require.cache[require.resolve(filePath)];
-		// 	console.log(`✅ Cache deleted for: ${commandName}`);
-		// } else {
-		// 	console.log(
-		// 		`❌ No cache found for: ${commandName}. Path might be wrong.`,
-		// 	);
-		// }
+		console.log(`[Reload] Attempting to reload path: ${filePath}`);
+
 		try {
+			// require.resolve use absolute file path for cache key
+			const resolvedPath = require.resolve(filePath);
+
+			if (require.cache[resolvedPath]) {
+				// if found delete the cache
+				delete require.cache[resolvedPath];
+				console.log(`✅ Cache deleted for: ${commandName}`);
+			}
+
+			// after the cache is deleted get the file path
 			const newCommand = require(filePath);
 
-			newCommand.category = command.category;
+			// maintain the original category
+			if (command.category) {
+				newCommand.category = command.category;
+			}
 
+			// Reset the new command to the client collection
 			interaction.client.commands.set(newCommand.data.name, newCommand);
 
-			await interaction.reply(
-				`Command \`${newCommand.data.name}\` was reloaded!`,
-			);
+			await interaction.reply({
+				content: `Command \`${newCommand.data.name}\` was successfully reloaded!`,
+				flags: MessageFlags.Ephemeral,
+			});
 		} catch (error) {
 			console.error(error);
-			await interaction.reply(
-				`RealodFile: There was an error while reloading a command \`${command.data.name}\`:\n\`${error.message}\``,
-			);
+
+			const errorMessage = `ReloadFile Error for \`${commandName}\`:\n\`${error.message}\``;
+			if (interaction.replied || interaction.deferred) {
+				await interaction.followUp({
+					content: errorMessage,
+					flags: MessageFlags.Ephemeral,
+				});
+			} else {
+				await interaction.reply({ content: errorMessage, flags: MessageFlags.Ephemeral });
+			}
 		}
 	},
 };

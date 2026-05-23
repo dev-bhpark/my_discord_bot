@@ -1,5 +1,5 @@
 const { AttachmentBuilder, SlashCommandBuilder } = require('discord.js');
-const speakiData = require('./zzal.json');
+const zzalData = require('./zzal.json');
 const path = require('node:path');
 
 module.exports = {
@@ -16,7 +16,7 @@ module.exports = {
 	async autocomplete(interaction) {
 		const focusedValue = interaction.options.getFocused();
 
-		const filtered = speakiData
+		const filtered = zzalData
 			.filter((zzal) =>
 				zzal.name.toLowerCase().includes(focusedValue.toLowerCase()),
 			)
