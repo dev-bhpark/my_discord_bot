@@ -16,27 +16,29 @@ module.exports = {
 		const focusedValue = interaction.options.getFocused();
 
 		const filtered = gifData
-			.filter((choice) =>
-				choice.name.toLowerCase().includes(focusedValue.toLowerCase()),
-			)
+			.filter((choice) => choice.name.toLowerCase().includes(focusedValue.toLowerCase()))
 			.slice(0, 25);
 		await interaction.respond(
 			filtered.map((choice) => ({
 				name: choice.name,
-				value: choice.value,
+				value: choice.id,
 			})),
 		);
 	},
 
 	async execute(interaction) {
+		// add this so that discord bot can find gif more than 3 seconds
+		await interaction.deferReply();
+
 		const gifURL = interaction.options.getString('category');
 
-		if (gifURL) {
-			await interaction.reply(gifURL);
+		const foundGif = gifData.find((choice) => choice.id === gifURL);
+
+		if (foundGif) {
+			await interaction.editReply(foundGif.url);
 		} else {
-			await interaction.reply({
+			await interaction.editReply({
 				content: 'Cannot find GIF',
-				ephemeral: true,
 			});
 		}
 	},

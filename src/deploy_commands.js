@@ -8,8 +8,8 @@ require('dotenv').config({ path: path.join(__dirname, '../.env') });
 /*
 	Change this comments when developing and pushing it on github
 */
-// const { clientId, guildId, token } = process.env;
-const { clientId, token } = process.env;
+const { clientId, guildId, token } = process.env;
+// const { clientId, token } = process.env;
 
 // delcare an array of commands
 const commands = [];
@@ -63,8 +63,8 @@ rest.delete(
 			/*
 				Change this comments when developing and pushing it on github
 			*/
-			// Routes.applicationGuildCommands(clientId, guildId),
-			Routes.applicationCommands(clientId),
+			Routes.applicationGuildCommands(clientId, guildId),
+			// Routes.applicationCommands(clientId),
 			{ body: commands },
 		);
 		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
