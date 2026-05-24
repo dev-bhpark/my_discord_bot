@@ -25,6 +25,22 @@
 	},
 	{
 		"name": "거렁뱅이",
-		"path": "../../image/거렁뱅이.png"	
+		"path": "../../image/거렁뱅이.png"
+	},
+	{
+		"name": "뿌와아악",
+		"path": "../../image/뿌와아악.png"
+	},
+	{
+		"name": "ㅈ됬노",
+		"path": "../../image/ㅈ됬노.png"
+	},
+	{
+		"name": "ㅋ",
+		"path": "../../image/ㅋ.png"
+	},
+	{
+		"name": "구라치지마",
+		"path": "../../image/구라치지마.png"
 	}
 ]
