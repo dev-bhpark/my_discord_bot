@@ -4,6 +4,10 @@ const path = require('node:path');
 
 require('dotenv').config({ path: path.join(__dirname, '../.env') });
 
+
+/*
+	Change this comments when developing and pushing it on github
+*/
 // const { clientId, guildId, token } = process.env;
 const { clientId, token } = process.env;
 
@@ -56,6 +60,9 @@ rest.delete(
 		console.log(`Started refreshing ${commands.length} application (/) commands.`);
 
 		const data = await rest.put(
+			/*
+				Change this comments when developing and pushing it on github
+			*/
 			// Routes.applicationGuildCommands(clientId, guildId),
 			Routes.applicationCommands(clientId),
 			{ body: commands },
