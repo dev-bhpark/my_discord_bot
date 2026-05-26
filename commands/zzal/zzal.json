@@ -1,49 +1,61 @@
 [
 	{
+		"id": "geusseu_jjal",
 		"name": "그쓰짤",
 		"path": "../../image/그쓰짤.png"
 	},
 	{
+		"id": "speaky_angry",
 		"name": "스피키 화내며 손들고 있는 짤",
 		"path": "../../image/hh.png"
 	},
 	{
+		"id": "speaky_cheek",
 		"name": "스피키 볼 잡아당기는 짤",
 		"path": "../../image/으갸갸갹.png"
 	},
 	{
+		"id": "jjowayo",
 		"name": "쪼아요",
 		"path": "../../image/쪼아요.png"
 	},
 	{
+		"id": "speaky_cry",
 		"name": "스피키 글썽이는 짤",
 		"path": "../../image/호에에에에.png"
 	},
 	{
+		"id": "mabak_chu",
 		"name": "마빡추",
 		"path": "../../image/마빡추.png"
 	},
 	{
+		"id": "beggar",
 		"name": "거렁뱅이",
 		"path": "../../image/거렁뱅이.png"
 	},
 	{
+		"id": "speaky_shock",
 		"name": "스피키 입벌린 짤",
 		"path": "../../image/뿌와아악.png"
 	},
 	{
+		"id": "hide_away",
 		"name": "조져지기 전에 어디로든 숨어야하는 거에요",
 		"path": "../../image/ㅈ됬노.png"
 	},
 	{
+		"id": "nice_try",
 		"name": "아주 애를 쓰시는군요",
 		"path": "../../image/ㅋ.png"
 	},
 	{
+		"id": "no_lie",
 		"name": "구라치지마",
 		"path": "../../image/구라치지마.png"
 	},
 	{
+		"id": "denia_glare",
 		"name": "데니아 찌릿 짤",
 		"path": "../../image/데니아 찌릿 짤.png"
 	}

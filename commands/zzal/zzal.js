@@ -1,6 +1,6 @@
 const { AttachmentBuilder, SlashCommandBuilder } = require('discord.js');
 const zzalData = require('./zzal.json');
-const path = require('node:path');
+const path = require('path');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -17,30 +17,30 @@ module.exports = {
 		const focusedValue = interaction.options.getFocused();
 
 		const filtered = zzalData
-			.filter((zzal) =>
-				zzal.name.toLowerCase().includes(focusedValue.toLowerCase()),
-			)
+			.filter((zzal) => zzal.name.toLowerCase().includes(focusedValue.toLowerCase()))
 			.slice(0, 25);
 		await interaction.respond(
 			filtered.map((zzal) => ({
 				name: zzal.name,
-				value: zzal.path,
+				value: zzal.id,
 			})),
 		);
 	},
-	async execute(interaction) {
-		const imagePath = interaction.options.getString('selected_zzal');
 
-		try {
-			const filePath = path.join(__dirname, imagePath);
+	async execute(interaction) {
+		await interaction.deferReply();
+
+		const imagePath = interaction.options.getString('selected_zzal');
+		const foundImage = zzalData.find((choice) => choice.id === imagePath);
+
+		if (foundImage) {
+			const filePath = path.join(__dirname, foundImage.path);
 			const file = new AttachmentBuilder(filePath);
 
-			await interaction.reply({ files: [file] });
-		} catch (error) {
-			console.error(error);
-			await interaction.reply({
-				content: 'Error for finding a file.',
-				ephemeral: true,
+			await interaction.editReply({ files: [file] });
+		} else {
+			await interaction.editReply({
+				content: 'Cannot find image',
 			});
 		}
 	},
