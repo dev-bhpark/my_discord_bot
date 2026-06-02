@@ -58,5 +58,10 @@
 		"id": "denia_glare",
 		"name": "데니아 찌릿 짤",
 		"path": "../../image/데니아 찌릿 짤.png"
+	},
+	{
+		"id": "tired_cat",
+		"name": "힘든 흰색 고양이",
+		"path": "../../image/힘든 흰색 고양이.png"
 	}
 ]
